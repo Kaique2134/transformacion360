@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transformación 360° - Tu Transformación Completa</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --pink: #ec4899;
+    --pink-dark: #db2777;
+    --purple: #9333ea;
+    --gradient: linear-gradient(135deg, #f472b6, #a855f7);
+    --gradient-btn: linear-gradient(135deg, #ec4899, #9333ea);
+    --bg: #fdf2f8;
+    --white: #ffffff;
+    --text: #1f2937;
+    --text-muted: #6b7280;
+    --green: #16a34a;
+    --red: #dc2626;
+    --border: #f9a8d4;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ===== TOP BAR ===== */
+  .topbar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    background: var(--gradient);
+    color: white;
+    z-index: 1000;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .topbar-label { font-weight: 800; font-size: 13px; white-space: nowrap; display: flex; align-items: center; gap: 6px; }
+  .topbar-bar { flex: 1; height: 8px; background: rgba(255,255,255,0.3); border-radius: 99px; overflow: hidden; max-width: 200px; }
+  .topbar-fill { height: 100%; width: 95%; background: white; border-radius: 99px; }
+
+  /* ===== MAIN ===== */
+  main { margin-top: 48px; max-width: 680px; margin-left: auto; margin-right: auto; padding: 0 16px 100px; }
+
+  /* ===== HERO ===== */
+  .hero {
+    text-align: center;
+    padding: 40px 16px 32px;
+    background: linear-gradient(180deg, #fce7f3 0%, #fdf2f8 100%);
+    margin: 0 -16px;
+  }
+  .hero-sparks { font-size: 52px; display: block; margin-bottom: 12px; animation: float 3s ease-in-out infinite; }
+  .hero h1 { font-size: clamp(36px, 8vw, 56px); font-weight: 900; color: var(--text); margin-bottom: 12px; }
+  .hero p { font-size: 16px; color: var(--text-muted); margin-bottom: 24px; }
+
+  .check-cards { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; max-width: 440px; margin-left: auto; margin-right: auto; }
+  .check-card {
+    background: white; border: 2px solid #f9a8d4; border-radius: 14px;
+    padding: 14px 20px; display: flex; align-items: center; gap: 12px;
+    font-size: 15px; font-weight: 700;
+  }
+  .check-badge {
+    width: 28px; height: 28px; background: #16a34a; border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 14px; font-weight: 900; flex-shrink: 0;
+  }
+  .hero-tagline { font-size: 16px; font-weight: 700; color: var(--text); }
+
+  /* ===== PERO ===== */
+  .pero-title { text-align: center; font-size: clamp(28px, 7vw, 48px); font-weight: 900; color: var(--pink); margin: 32px 0 16px; }
+
+  .question-box { text-align: center; margin-bottom: 24px; }
+  .question-box p { font-size: 16px; color: var(--text-muted); margin-bottom: 6px; }
+  .question-box p.bold { font-weight: 700; color: var(--text); }
+
+  .problems {
+    background: #fff1f2; border: 2px solid #fecdd3; border-radius: 16px; padding: 20px; margin-bottom: 24px;
+  }
+  .problem-item {
+    display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600;
+    color: var(--text); padding: 7px 0; border-bottom: 1px solid #fecdd3;
+  }
+  .problem-item:last-child { border-bottom: none; }
+  .problem-item .x { color: var(--red); font-size: 18px; }
+
+  .read-cta { text-align: center; font-size: 14px; font-weight: 700; color: var(--text-muted); margin-bottom: 32px; }
+
+  /* ===== STORY ===== */
+  .story-section { background: white; margin: 0 -16px; padding: 40px 16px; }
+  .story-header { text-align: center; margin-bottom: 24px; }
+  .story-header h2 { font-size: clamp(18px, 4vw, 24px); font-weight: 900; margin-bottom: 4px; }
+  .story-header p { font-size: 14px; color: var(--text-muted); font-style: italic; }
+
+  .timeline { position: relative; }
+  .timeline::before {
+    content: ''; position: absolute; left: 20px; top: 0; bottom: 0;
+    width: 3px; background: linear-gradient(to bottom, #4ade80, #f472b6, #dc2626);
+  }
+  .tl-item { display: flex; gap: 14px; margin-bottom: 14px; }
+  .tl-dot {
+    width: 42px; height: 42px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0; z-index: 1; border: 3px solid white;
+  }
+  .tl-dot.green { background: #dcfce7; }
+  .tl-dot.blue { background: #dbeafe; }
+  .tl-dot.red { background: #fee2e2; }
+  .tl-body { flex: 1; border-radius: 14px; padding: 14px 16px; border: 2px solid; }
+  .tl-body.green { background: #f0fdf4; border-color: #86efac; }
+  .tl-body.blue { background: #eff6ff; border-color: #bfdbfe; }
+  .tl-body.red { background: #fff1f2; border-color: #fecdd3; }
+  .tl-body h4 { font-size: 13px; font-weight: 800; margin-bottom: 6px; }
+  .tl-body p { font-size: 13px; color: var(--text-muted); }
+  .tl-body .msg {
+    background: #f0fdf4; border: 1px solid #86efac; border-radius: 10px;
+    padding: 10px 12px; font-size: 13px; font-style: italic; color: var(--text); margin-top: 6px;
+  }
+
+  .insight-box {
+    background: #fefce8; border: 2px solid #fde047; border-radius: 14px;
+    padding: 16px 20px; text-align: center; font-size: 15px; font-weight: 800; margin: 16px 0 32px;
+  }
+
+  /* ===== 360 SECTION ===== */
+  .t360-section {
+    background: linear-gradient(135deg, #fdf2f8, #f5f3ff);
+    margin: 0 -16px; padding: 40px 16px; text-align: center;
+  }
+  .t360-sparks { font-size: 40px; margin-bottom: 8px; }
+  .t360-section h2 {
+    font-size: clamp(20px, 5vw, 28px); font-weight: 900; margin-bottom: 8px;
+    background: var(--gradient); -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .t360-section .subtitle { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; }
+
+  .compare-strip { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 28px; max-width: 420px; margin-left: auto; margin-right: auto; }
+  .cs-item { border-radius: 14px; padding: 14px; text-align: center; font-size: 14px; font-weight: 700; }
+  .cs-item.plain { background: #f9fafb; border: 2px solid #e5e7eb; color: var(--text-muted); }
+  .cs-item.glow { background: linear-gradient(135deg, #fdf2f8, #f5f3ff); border: 2px solid #f9a8d4; color: var(--pink-dark); }
+  .cs-item .label { font-size: 11px; font-weight: 800; letter-spacing: 0.5px; margin-bottom: 4px; text-transform: uppercase; }
+
+  .benefits-list { max-width: 380px; margin: 0 auto 28px; text-align: left; }
+  .benefit-item {
+    display: flex; align-items: center; gap: 10px; font-size: 14px;
+    font-weight: 600; padding: 7px 0; border-bottom: 1px solid #f9a8d4; color: var(--text);
+  }
+  .benefit-item:last-child { border-bottom: none; }
+  .benefit-item .star { color: var(--pink); font-size: 16px; }
+
+  .comp-table { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 0 auto 32px; max-width: 500px; }
+  .comp-col { border-radius: 16px; padding: 18px; border: 2px solid; }
+  .comp-col.plain { background: #f9fafb; border-color: #e5e7eb; }
+  .comp-col.glow { background: linear-gradient(135deg, #fdf2f8, #f5f3ff); border-color: #f9a8d4; }
+  .comp-col h4 { font-size: 12px; font-weight: 800; letter-spacing: 0.5px; margin-bottom: 14px; text-align: center; }
+  .comp-col.plain h4 { color: var(--text-muted); }
+  .comp-col.glow h4 { color: var(--pink-dark); }
+  .comp-row { font-size: 12px; padding: 6px 0; border-bottom: 1px dashed; display: flex; justify-content: space-between; align-items: center; }
+  .comp-col.plain .comp-row { border-color: #e5e7eb; }
+  .comp-col.glow .comp-row { border-color: #f9a8d4; }
+  .comp-row:last-child { border-bottom: none; }
+  .comp-row .label { color: var(--text-muted); }
+  .comp-row .val { font-weight: 800; }
+  .comp-row .val.green { color: var(--green); }
+  .comp-row .val.red { color: var(--red); }
+  .testimonial-pill { text-align: center; font-size: 14px; font-weight: 700; color: var(--pink-dark); font-style: italic; margin-bottom: 8px; }
+
+  /* ===== PILARES ===== */
+  .pillars-section { background: white; margin: 0 -16px; padding: 40px 16px; }
+  .pillars-title {
+    text-align: center; font-size: clamp(16px, 4vw, 20px); font-weight: 900; margin-bottom: 16px;
+    background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .pillar-item {
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--bg); border: 2px solid var(--border); border-radius: 14px;
+    padding: 16px 18px; margin-bottom: 10px; cursor: pointer; transition: border-color 0.2s;
+  }
+  .pillar-item:hover { border-color: var(--pink); }
+  .pillar-left { display: flex; align-items: center; gap: 12px; }
+  .pillar-icon { font-size: 26px; }
+  .pillar-title-text { font-size: 14px; font-weight: 800; }
+  .pillar-sub { font-size: 12px; color: var(--text-muted); }
+  .pillar-badge {
+    background: var(--gradient-btn); color: white; font-weight: 900; font-size: 14px;
+    padding: 6px 14px; border-radius: 99px; display: flex; align-items: center; gap: 8px; flex-shrink: 0;
+  }
+
+  /* ===== BONUSES ===== */
+  .bonuses-section { background: linear-gradient(135deg, #fdf2f8, #f5f3ff); margin: 0 -16px; padding: 32px 16px; }
+  .bonuses-title { text-align: center; font-size: 20px; font-weight: 900; margin-bottom: 16px; }
+  .bonuses-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 24px; }
+  @media (max-width: 420px) { .bonuses-grid { grid-template-columns: 1fr; } }
+  .bonus-card { background: white; border: 2px solid var(--border); border-radius: 14px; padding: 16px; text-align: center; }
+  .bonus-card .icon { font-size: 32px; margin-bottom: 8px; }
+  .bonus-card h4 { font-size: 13px; font-weight: 800; margin-bottom: 4px; }
+  .bonus-price { font-size: 12px; color: var(--text-muted); text-decoration: line-through; margin-bottom: 2px; }
+  .bonus-free { font-size: 12px; font-weight: 900; color: var(--green); }
+
+  /* ===== VALUE STACK ===== */
+  .value-stack { background: white; margin: 0 -16px; padding: 32px 16px; }
+  .value-box { background: var(--gradient); border-radius: 20px; padding: 24px; color: white; max-width: 420px; margin: 0 auto 24px; }
+  .value-row { display: flex; justify-content: space-between; padding: 10px 0; font-size: 14px; border-bottom: 1px solid rgba(255,255,255,0.2); }
+  .value-row:last-child { border-bottom: none; }
+  .value-total { display: flex; justify-content: space-between; padding-top: 14px; border-top: 2px solid rgba(255,255,255,0.4); margin-top: 8px; font-size: 18px; font-weight: 900; }
+  .value-note { text-align: center; font-size: 13px; opacity: 0.85; font-style: italic; margin-top: 10px; }
+
+  /* ===== PRICE + CTA ===== */
+  .price-section { text-align: center; padding: 32px 16px; background: linear-gradient(180deg, #fdf2f8 0%, white 100%); margin: 0 -16px; }
+  .price-badge {
+    display: inline-block; background: var(--gradient-btn); color: white;
+    font-size: 11px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;
+    padding: 4px 14px; border-radius: 99px; margin-bottom: 12px;
+  }
+  .price-amount {
+    font-size: clamp(52px, 12vw, 80px); font-weight: 900;
+    background: var(--gradient); -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; background-clip: text; line-height: 1; margin-bottom: 6px;
+  }
+  .price-perks {
+    display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;
+    font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 20px;
+  }
+
+  /* ===== TIMER ===== */
+  .timer-val { font-size: 20px; font-weight: 900; color: var(--pink); }
+
+  /* ===== CTA ===== */
+  .cta-btn {
+    display: block; width: 100%; background: var(--gradient-btn); color: white;
+    font-weight: 900; font-size: clamp(15px, 3.5vw, 18px); text-align: center;
+    padding: 20px 24px; border-radius: 50px; border: none; cursor: pointer;
+    text-decoration: none; margin-bottom: 10px;
+    box-shadow: 0 6px 30px rgba(236,72,153,0.4); transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 40px rgba(236,72,153,0.5); }
+  .cta-sub { font-size: 12px; text-align: center; color: var(--text-muted); font-weight: 600; margin-bottom: 6px; }
+
+  /* ===== STICKY CTA ===== */
+  .sticky-cta {
+    position: fixed; bottom: 0; left: 0; right: 0; background: white;
+    padding: 10px 16px; box-shadow: 0 -4px 20px rgba(236,72,153,0.15); z-index: 999; display: none;
+  }
+  .sticky-cta .cta-btn { margin-bottom: 0; padding: 14px; font-size: 15px; }
+
+  /* ===== PS ===== */
+  .ps-section { background: white; margin: 0 -16px; padding: 32px 16px; }
+  .ps-item { border-left: 3px solid var(--pink); padding: 12px 16px; margin-bottom: 14px; }
+  .ps-label { font-weight: 900; color: var(--pink-dark); font-size: 14px; margin-bottom: 4px; }
+  .ps-text { font-size: 14px; color: var(--text); }
+  .ps-text .timer-inline { font-weight: 900; color: var(--pink); }
+  .closing { text-align: center; padding: 20px 0; font-size: 14px; color: var(--text-muted); }
+  .closing p { margin-bottom: 4px; }
+
+  /* ===== FOOTER ===== */
+  .footer { background: #1f2937; margin: 0 -16px; padding: 20px 16px; text-align: center; }
+  .footer p { font-size: 12px; color: #9ca3af; }
+
+  .divider { height: 2px; background: #fce7f3; margin: 24px 0; border-radius: 2px; }
+
+  @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-label">⏳ PASO 3 de 3 • ¡ÚLTIMA OPORTUNIDAD!</div>
+  <div class="topbar-bar"><div class="topbar-fill"></div></div>
+</div>
+
+<!-- STICKY CTA -->
+<div class="sticky-cta" id="sticky-cta">
+  <a href="#checkout" class="cta-btn" onclick="handleCTA(event)">✨ Acceso Ahora - $17 USD</a>
+</div>
+
+<main>
+
+  <!-- HERO -->
+  <div class="hero">
+    <span class="hero-sparks">✨</span>
+    <h1>Felicidades</h1>
+    <p>Acabas de tomar decisiones que VAN a cambiar tu vida:</p>
+    <div class="check-cards">
+      <div class="check-card"><div class="check-badge">✓</div> El Mounjaro Japonés</div>
+      <div class="check-card"><div class="check-badge">✓</div> Ritual Anti-Envejecimiento</div>
+    </div>
+    <p class="hero-tagline">Estás a punto de tener el cuerpo que siempre soñaste.</p>
+  </div>
+
+  <!-- PERO -->
+  <div style="padding: 0 0 8px;">
+    <div class="pero-title">PERO</div>
+    <div class="question-box">
+      <p>¿Perder peso es <strong>REALMENTE suficiente</strong> para ti?</p>
+      <p class="bold">O en el fondo... ¿quieres algo MÁS? 💫</p>
+      <p style="margin-top:10px; font-size:15px; color:var(--text);">Porque si después de perder peso...</p>
+    </div>
+    <div class="problems">
+      <div class="problem-item"><span class="x">❌</span> Tu piel está flácida y sin vida</div>
+      <div class="problem-item"><span class="x">❌</span> Tu cabello está débil y cayendo</div>
+      <div class="problem-item"><span class="x">❌</span> Tienes celulitis más visible</div>
+      <div class="problem-item"><span class="x">❌</span> Te sientes cansada todo el tiempo</div>
+      <div class="problem-item"><span class="x">❌</span> Todavía te ves 10 años mayor</div>
+    </div>
+    <div class="question-box">
+      <p class="bold" style="font-size:16px;">¿Realmente lograste la transformación que querías?</p>
+    </div>
+    <div class="read-cta">👇 Lee esto en 4 minutos</div>
+  </div>
+
+  <!-- STORY -->
+  <div class="story-section">
+    <div class="story-header">
+      <div style="font-size:36px; margin-bottom:8px;">📖</div>
+      <h2>LA HISTORIA DE MARÍA</h2>
+      <p>(La verdad que nadie cuenta)</p>
+      <p style="margin-top:8px; font-size:14px; color:var(--text); font-weight:600;">María perdió 18 kilos... pero no se sentía linda.</p>
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot green">🌱</div>
+        <div class="tl-body green"><h4>DÍA 0: 82kg</h4><p>Empecé el Mounjaro Japonés</p></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot blue">🎉</div>
+        <div class="tl-body blue"><h4>DÍA 60: 64kg (-18kg) ✅</h4><p>¡EUFÓRICA! Compré ropa nueva</p></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot red">💔</div>
+        <div class="tl-body red">
+          <h4>DÍA 74: El mensaje que cambió todo 💔</h4>
+          <div class="msg">"Perdí 18 kilos... pero no me siento linda. Mi piel está floja. Mi cabello se cae. Me canso mucho. Tengo estrías visibles. ¿Qué hice mal?"</div>
+        </div>
+      </div>
+    </div>
+    <div class="insight-box">María no hizo NADA mal. El problema: se enfocó SOLO en el peso.</div>
+  </div>
+
+  <!-- 360 SECTION -->
+  <div class="t360-section">
+    <div class="t360-sparks">✨</div>
+    <h2>TRANSFORMACIÓN 360°</h2>
+    <p class="subtitle">El único programa que transforma tu CUERPO, PIEL, ENERGÍA y APARIENCIA al mismo tiempo</p>
+    <div class="compare-strip">
+      <div class="cs-item plain"><div class="label">❌ Solo perder peso:</div>Te hace DELGADA</div>
+      <div class="cs-item glow"><div class="label">✨ Transformación 360°:</div>Te hace RADIANTE 🌟</div>
+    </div>
+    <div class="benefits-list">
+      <div class="benefit-item"><span class="star">✨</span> Perder peso + piel radiante</div>
+      <div class="benefit-item"><span class="star">✨</span> Perder peso + cabello fuerte</div>
+      <div class="benefit-item"><span class="star">✨</span> Perder peso + energía 10x</div>
+      <div class="benefit-item"><span class="star">✨</span> Perder peso + 10 años más joven</div>
+      <div class="benefit-item"><span class="star">✨</span> Perder peso + cero celulitis</div>
+      <div class="benefit-item"><span class="star">✨</span> Perder peso + sentirte HERMOSA</div>
+    </div>
+    <div class="comp-table">
+      <div class="comp-col plain">
+        <h4>Solo Mounjaro</h4>
+        <div class="comp-row"><span class="label">Peso</span><span class="val green">64kg ✅</span></div>
+        <div class="comp-row"><span class="label">Piel</span><span class="val red">floja ❌</span></div>
+        <div class="comp-row"><span class="label">Cabello</span><span class="val red">cae ❌</span></div>
+        <div class="comp-row"><span class="label">Energía</span><span class="val red">baja ❌</span></div>
+        <div class="comp-row"><span class="label">Apariencia</span><span class="val red">cansada ❌</span></div>
+      </div>
+      <div class="comp-col glow">
+        <h4>+ 360°</h4>
+        <div class="comp-row"><span class="label">Peso</span><span class="val green">62kg ✅</span></div>
+        <div class="comp-row"><span class="label">Piel</span><span class="val green">firme ✅</span></div>
+        <div class="comp-row"><span class="label">Cabello</span><span class="val green">fuerte ✅</span></div>
+        <div class="comp-row"><span class="label">Energía</span><span class="val green">10/10 ✅</span></div>
+        <div class="comp-row"><span class="label">Apariencia</span><span class="val green">radiante ✅</span></div>
+      </div>
+    </div>
+    <div class="testimonial-pill">"Ahora SÍ me siento HERMOSA" - María</div>
+  </div>
+
+  <!-- PILARES -->
+  <div class="pillars-section">
+    <div class="pillars-title">🌟 LOS 5 PILARES DE LA TRANSFORMACIÓN 360°</div>
+    <div class="pillar-item">
+      <div class="pillar-left">
+        <span class="pillar-icon">✨</span>
+        <div><div class="pillar-title-text">PILAR 1: PIEL RADIANTE Y FIRME</div><div class="pillar-sub">Salva tu piel durante pérdida de peso</div></div>
+      </div>
+      <div class="pillar-badge">$47 ▼</div>
+    </div>
+    <div class="pillar-item">
+      <div class="pillar-left">
+        <span class="pillar-icon">💇‍♀️</span>
+        <div><div class="pillar-title-text">PILAR 2: CABELLO FUERTE Y BRILLANTE</div><div class="pillar-sub">Fortalece desde la raíz</div></div>
+      </div>
+      <div class="pillar-badge">$39 ▼</div>
+    </div>
+    <div class="pillar-item">
+      <div class="pillar-left">
+        <span class="pillar-icon">⚡</span>
+        <div><div class="pillar-title-text">PILAR 3: ENERGÍA 10X</div><div class="pillar-sub">Recupera tu vitalidad</div></div>
+      </div>
+      <div class="pillar-badge">$43 ▼</div>
+    </div>
+    <div class="pillar-item">
+      <div class="pillar-left">
+        <span class="pillar-icon">🔥</span>
+        <div><div class="pillar-title-text">PILAR 4: ANTI-CELULITIS</div><div class="pillar-sub">Elimina la celulitis visible</div></div>
+      </div>
+      <div class="pillar-badge">$41 ▼</div>
+    </div>
+    <div class="pillar-item">
+      <div class="pillar-left">
+        <span class="pillar-icon">🌸</span>
+        <div><div class="pillar-title-text">PILAR 5: REJUVENESCIMIENTO FACIAL</div><div class="pillar-sub">Parece 10 años más joven</div></div>
+      </div>
+      <div class="pillar-badge">$39 ▼</div>
+    </div>
+  </div>
+
+  <!-- BONUSES -->
+  <div class="bonuses-section">
+    <div class="bonuses-title">🎁 BONOS INCLUIDOS</div>
+    <div class="bonuses-grid">
+      <div class="bonus-card"><div class="icon">📱</div><h4>App 360°</h4><div class="bonus-price">$29</div><div class="bonus-free">FREE</div></div>
+      <div class="bonus-card"><div class="icon">🛍️</div><h4>Guía Compras</h4><div class="bonus-price">$19</div><div class="bonus-free">FREE</div></div>
+      <div class="bonus-card"><div class="icon">👗</div><h4>Style Guide</h4><div class="bonus-price">$17</div><div class="bonus-free">FREE</div></div>
+      <div class="bonus-card"><div class="icon">💬</div><h4>Comunidad</h4><div class="bonus-price">$27</div><div class="bonus-free">FREE</div></div>
+    </div>
+  </div>
+
+  <!-- VALUE STACK -->
+  <div class="value-stack">
+    <div class="value-box">
+      <div class="value-row"><span>5 Pilares</span><span>$209</span></div>
+      <div class="value-row"><span>+ 4 Bonos</span><span>$92</span></div>
+      <div class="value-total"><span>TOTAL SIN ESTA OFERTA</span><span>$301 USD</span></div>
+      <p class="value-note">Pero tú NO vas a pagar $301...</p>
+    </div>
+
+    <!-- PRICE -->
+    <div class="price-section">
+      <div class="price-badge">✨ OFERTA EXCLUSIVA HOY</div>
+      <div class="price-amount">$17</div>
+      <div class="price-perks">
+        <span>⏰ Válida: <span class="timer-val" id="timer">09:51</span></span>
+        <span>🛡️ Garantía triple</span>
+        <span>💳 Pago único</span>
+        <span>🔒 100% seguro</span>
+      </div>
+      <a href="#checkout" class="cta-btn" id="main-cta" onclick="handleCTA(event)">
+        ✨ SÍ, QUIERO TRANSFORMACIÓN 360° COMPLETA POR APENAS $17
+      </a>
+      <div class="cta-sub">💫 COMPLETAR MI TRANSFORMACIÓN AHORA</div>
+      <div class="cta-sub" style="margin-top:4px; color:var(--pink-dark);">⏰ Válida: <span id="timer2">09:51</span></div>
+      <p style="font-size:13px; color:var(--text-muted); margin-top:12px;">Tu transformación COMPLETA comienza en 2 minutos. 🌟</p>
+    </div>
+  </div>
+
+  <!-- PS SECTION -->
+  <div class="ps-section">
+    <div class="closing">
+      <p>Nos vemos del otro lado. ✨</p>
+      <p style="color:var(--text-muted); font-size:13px;">— Equipo Nutri Naomi Kobayashi</p>
+    </div>
+    <div class="divider"></div>
+    <div class="ps-item">
+      <div class="ps-label">P.D.:</div>
+      <div class="ps-text">Lucía, Carolina, Andrea... todas pensaron "no necesito esto". Hasta que lo probaron. No cometas el error de quedarte con la duda.</div>
+    </div>
+    <div class="ps-item">
+      <div class="ps-label">P.P.D.:</div>
+      <div class="ps-text"><span class="timer-inline" id="timer3">09:51</span> minutos restantes. Precio sube a $37 después. Bonos desaparecen. Esta es tu única oportunidad por $17.</div>
+    </div>
+    <div class="ps-item">
+      <div class="ps-label">P.P.P.D.:</div>
+      <div class="ps-text">$17 = 2 cafés Starbucks. Transformación 360° = resultados para SIEMPRE. Decide AHORA. ⏰</div>
+    </div>
+    <a href="#checkout" class="cta-btn" onclick="handleCTA(event)" style="margin-top:16px;">✨ Acceso Ahora - $17 USD</a>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <p>© 2025 Nutri Naomi Kobayashi. Todos los derechos reservados.</p>
+  </div>
+
+</main>
+
+<script>
+  const CHECKOUT_URL = '#'; // 👈 Substitua pelo link de checkout
+
+  function handleCTA(e) {
+    e.preventDefault();
+    if (CHECKOUT_URL && CHECKOUT_URL !== '#') window.location.href = CHECKOUT_URL;
+  }
+
+  // Timer
+  let totalSeconds = 9 * 60 + 51;
+  function updateTimers() {
+    if (totalSeconds <= 0) return;
+    totalSeconds--;
+    const m = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
+    const s = String(totalSeconds % 60).padStart(2, '0');
+    const t = m + ':' + s;
+    document.getElementById('timer').textContent = t;
+    document.getElementById('timer2').textContent = t;
+    document.getElementById('timer3').textContent = t;
+  }
+  setInterval(updateTimers, 1000);
+
+  // Sticky CTA
+  const stickyCta = document.getElementById('sticky-cta');
+  const mainCta = document.getElementById('main-cta');
+  window.addEventListener('scroll', () => {
+    stickyCta.style.display = mainCta.getBoundingClientRect().bottom < 0 ? 'block' : 'none';
+  });
+</script>
+</body>
+</html>
